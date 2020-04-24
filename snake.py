@@ -67,17 +67,26 @@ def main_game():
     run = True
     global score
     global speed
+    tickspeed = 15
     while run == True:
         window.fill((0, 0, 0))
         scoreText = font.render('SCORE: ' + str(score), 1, (0, 255, 0))
-        speedText = font.render('SPEED: ' + str(speed), 1, (0, 255, 0))
+        speedText = font.render('LEVEL: ' + str(speed), 1, (0, 255, 0))
         window.blit(scoreText, (250, 25))
         window.blit(speedText, (50, 25))
         snakey.draw(window)
         apple.draw(window)
         pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
         pygame.display.update()
-        clock.tick(15)
+        clock.tick(tickspeed)
+
+        #check score
+        if score > 10:
+            tickspeed = 20
+        elif score > 25:
+            tickspeed = 25
+        elif score > 50:
+            tickspeed = 30
 
         # look for quit types
         for event in pygame.event.get():

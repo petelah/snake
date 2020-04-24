@@ -12,6 +12,7 @@ class dot(object):
 
     def draw(self, window):
         pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, self.width, self.height))
+        print(f"x{self.x} y{self.y}")
 
     def randSpawn(coordList):
         xList = []
