@@ -20,34 +20,6 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 # Sets caption for window
 pygame.display.set_caption("Snake-lah")
 
-def gameOver():
-    go = True
-    snakey.length = []
-    while go:
-        clock.tick(6)
-        window.fill((0, 0, 0))
-        if keys[pygame.K_SPACE]:
-            print('continue')
-            go = False
-        if keys[pygame.K_ESCAPE]:
-            run = False
-        goText = font.render('GAME OVER', 1, (0, 255, 0))
-        retryText = font.render('RETRY: SPACEBAR', 1, (0, 255, 0))
-        quitText = font.render('QUIT: ESC', 1, (0, 255, 0))
-        window.blit(goText, (250, 25))
-        window.blit(retryText, (50, 25))
-        window.blit(quitText, (50, 25))
-        pygame.display.update()
-
-# def gameReset():
-#     global snakey = snake(300, 410, 10, 10)
-#     global apple = dot(250, 250)
-#     global score = 0
-#     global speed = 1
-
-
-#run = True
-
 snakey = snake(300, 410, 10, 10)
 apple = dot(250, 250)
 score = 0
@@ -61,7 +33,6 @@ def main_menu():
         window.fill((0, 0, 0))
         pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
 
-
         startText = font.render('START', 1, (0, 255, 0))
         window.blit(startText, (50, 200))
         exitText = font.render('EXIT', 1, (0, 255, 0))
@@ -70,7 +41,6 @@ def main_menu():
 
         clock.tick(60)
         pygame.display.update()
-
 
         # look for quit types
         for event in pygame.event.get():
@@ -119,8 +89,6 @@ def main_game():
             snakey.length = [[300,410],[]]
             return False
 
-
-
         if keys[pygame.K_UP] and snakey.south == False:
             snakey.north = True
             snakey.south = False
@@ -160,10 +128,6 @@ def main_game():
                 apple.y = x[1]
                 apple.draw(window)
 
-
-
 main_menu()
-
-
 
 pygame.quit()
