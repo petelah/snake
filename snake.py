@@ -98,6 +98,16 @@ def main_game():
             snakey.length = [[300,410],[]]
             return False
 
+        if keys[pygame.K_1]:
+            apple.iseaten = True
+            if apple.iseaten == True:
+                x = apple.rando(snakey.length[0][0], snakey.length[0][1])
+                print(x)
+                apple.x = x[0]
+                apple.y = x[1]
+                apple.draw(window)
+
+
         if keys[pygame.K_UP] and snakey.south == False:
             snakey.north = True
             snakey.south = False
