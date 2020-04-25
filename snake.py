@@ -101,7 +101,7 @@ def main_game():
         if keys[pygame.K_1]:
             apple.iseaten = True
             if apple.iseaten == True:
-                x = apple.rando(snakey.length[0][0], snakey.length[0][1])
+                x = apple.newrando(snakey.length[0][0], snakey.length[0][1], snakey.length)
                 print(x)
                 apple.x = x[0]
                 apple.y = x[1]
@@ -128,9 +128,10 @@ def main_game():
             snakey.south = False
             snakey.east = False
             snakey.west = True
+        #check to see if the snake hits the side
         if snakey.length[0][0] == 0 or snakey.length[0][0] == 500 or \
                 snakey.length[0][1] == 50 or snakey.length[0][1] == 550:
-            print('hit')
+            #print('hit')
             score = 0
             snakey.length = [[300, 410], []]
             return False
@@ -141,8 +142,8 @@ def main_game():
             apple.iseaten = True
             score += 1
             if apple.iseaten == True:
-                x = apple.rando(snakey.length[0][0], snakey.length[0][1])
-                print(x)
+                x = apple.randspawn(snakey.length[0][0], snakey.length[0][1])
+                #print(x)
                 apple.x = x[0]
                 apple.y = x[1]
                 apple.draw(window)
