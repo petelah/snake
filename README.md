@@ -8,7 +8,7 @@ as possible while learning pygame.
 # Controls
 Control the snake using the arrow keys
 
-#Updates
+# Updates
 25.04.2020:
 
 Fixed apple random spawn
