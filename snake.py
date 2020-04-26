@@ -149,7 +149,7 @@ def main_game():
                 apple.x = x[0]
                 apple.y = x[1]
                 apple.draw(window)
-                # Check to see if snake hit itself
+        # Check to see if snake hit itself
         # if len(snakey.length) > 4:
         #     if snakey.length[0] in snakey.length[1:]:
         #         return False
