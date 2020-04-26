@@ -41,4 +41,3 @@ class snake(object):
     def addTail(self):
         #add last position the head was minus the direction it was going
 
-        self.length.append([])
