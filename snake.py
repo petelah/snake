@@ -4,7 +4,7 @@ from random import choice
 from player_two import snake
 from dot import dot
 
-# init pygame
+# Init pygame
 pygame.init()
 
 # CONSTANTS
@@ -12,23 +12,27 @@ WIDTH = 500
 HEIGHT = 550
 font = pygame.font.SysFont('helvetica', 30, True)
 
-# game clock
+# Game clock
 clock = pygame.time.Clock()
 
-# create screen
+# Create screen
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 # Sets caption for window
 pygame.display.set_caption("Snake-lah")
 
+# Init
 snakey = snake(300, 410, 10, 10)
 apple = dot(250, 250)
 score = 0
 speed = 1
 
 def main_menu():
+
+    # Menu bar location
     barXpos = 50
     barYpos = 230
     barLength = 115
+
     while True:
         window.fill((0, 0, 0))
         pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
@@ -42,7 +46,7 @@ def main_menu():
         clock.tick(60)
         pygame.display.update()
 
-        # look for quit types
+        # Look for quit types
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
@@ -80,15 +84,18 @@ def main_game():
         pygame.display.update()
         clock.tick(tickspeed)
 
-        #check score
+        # Check score
         if score > 10:
             tickspeed = 20
+            speed = 2
         elif score > 25:
             tickspeed = 25
+            speed = 3
         elif score > 50:
             tickspeed = 30
+            speed = 4
 
-        # look for quit types
+        # Look for quit types
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
@@ -97,16 +104,6 @@ def main_game():
             score = 0
             snakey.length = [[300,410],[]]
             return False
-
-        if keys[pygame.K_1]:
-            apple.iseaten = True
-            if apple.iseaten == True:
-                x = apple.newrando(snakey.length[0][0], snakey.length[0][1], snakey.length)
-                print(x)
-                apple.x = x[0]
-                apple.y = x[1]
-                apple.draw(window)
-
 
         if keys[pygame.K_UP] and snakey.south == False:
             snakey.north = True
@@ -128,25 +125,35 @@ def main_game():
             snakey.south = False
             snakey.east = False
             snakey.west = True
-        #check to see if the snake hits the side
+        # Check to see if the snake hits the side
         if snakey.length[0][0] == 0 or snakey.length[0][0] == 500 or \
                 snakey.length[0][1] == 50 or snakey.length[0][1] == 550:
             #print('hit')
             score = 0
             snakey.length = [[300, 410], []]
+            # return to main menu
             return False
-            # gameReset()
+        # if [snakey.length[0][0], snakey.length[0][1]] in snakey.length[1::]:
+        #     return False
         if (snakey.length[0][0], snakey.length[0][1]) == (apple.x, apple.y):
             # addTail
             snakey.addTail()
             apple.iseaten = True
             score += 1
             if apple.iseaten == True:
-                x = apple.randspawn(snakey.length[0][0], snakey.length[0][1])
+                x = apple.randspawn(snakey.length[0][0], snakey.length[0][1], snakey.length)
                 #print(x)
                 apple.x = x[0]
                 apple.y = x[1]
                 apple.draw(window)
+                # Check to see if snake hit itself
+        # if len(snakey.length) > 4:
+        #     if snakey.length[0] in snakey.length[1:]:
+        #         return False
+        if len(snakey.length) > 4:
+            for vert in range(len(snakey.length)):
+                if snakey.length[vert] in snakey.length[vert+1:]:
+                    return False
 
 main_menu()
 
