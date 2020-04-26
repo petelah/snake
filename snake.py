@@ -78,11 +78,13 @@ def main_game():
         speedText = font.render('LEVEL: ' + str(speed), 1, (0, 255, 0))
         window.blit(scoreText, (250, 25))
         window.blit(speedText, (50, 25))
+
         snakey.draw(window)
         apple.draw(window)
         pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
         pygame.display.update()
         clock.tick(tickspeed)
+
 
         # Check score
         if score > 10:
@@ -99,6 +101,7 @@ def main_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             score = 0
@@ -125,6 +128,7 @@ def main_game():
             snakey.south = False
             snakey.east = False
             snakey.west = True
+
         # Check to see if the snake hits the side
         if snakey.length[0][0] == 0 or snakey.length[0][0] == 500 or \
                 snakey.length[0][1] == 50 or snakey.length[0][1] == 550:
@@ -133,8 +137,7 @@ def main_game():
             snakey.length = [[300, 410], []]
             # return to main menu
             return False
-        # if [snakey.length[0][0], snakey.length[0][1]] in snakey.length[1::]:
-        #     return False
+
         if (snakey.length[0][0], snakey.length[0][1]) == (apple.x, apple.y):
             # addTail
             snakey.addTail()
@@ -150,10 +153,15 @@ def main_game():
         # if len(snakey.length) > 4:
         #     if snakey.length[0] in snakey.length[1:]:
         #         return False
+
+        # if [snakey.length[0][0], snakey.length[0][1]] in snakey.length[1::]:
+        #     return False
         if len(snakey.length) > 4:
-            for vert in range(len(snakey.length)):
-                if snakey.length[vert] in snakey.length[vert+1:]:
-                    return False
+            if [x for x in snakey.length[0] if snakey.length[0] in snakey.length[1:]]:
+                return False
+
+
+
 
 main_menu()
 
