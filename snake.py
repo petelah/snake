@@ -36,7 +36,6 @@ def main_menu():
     while True:
         window.fill((0, 0, 0))
         pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
-
         startText = font.render('START', 1, (0, 255, 0))
         window.blit(startText, (50, 200))
         exitText = font.render('EXIT', 1, (0, 255, 0))
@@ -152,16 +151,7 @@ def main_game():
         # Check to see if snake hit itself
         if len(snakey.length) > 3:
             if snakey.length[0] in snakey.length[2:]:
-                print(snakey.length)
-                print(snakey.length[0])
-                print(snakey.length[2:])
                 return False
-
-        # if [snakey.length[0][0], snakey.length[0][1]] in snakey.length[1::]:
-        #     return False
-        # if len(snakey.length) > 4:
-        #     if [x for x in snakey.length[0] if snakey.length[0] in snakey.length[1:]]:
-        #         return False
 
 
 
