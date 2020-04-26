@@ -10,6 +10,7 @@ Control the snake using the arrow keys
 
 # Updates
 27.04.2020:
+
 Fixed collisions with self so game now ends when you collide with yourself.
 
 25.04.2020:
