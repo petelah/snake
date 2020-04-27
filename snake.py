@@ -1,4 +1,6 @@
 import pygame
+import json
+from os import getcwd, path
 from random import choice
 
 from player_two import snake
@@ -64,6 +66,21 @@ def main_menu():
                 main_game()
             if barXpos == 350:
                 return False
+
+def game_over(score):
+    # Menu bar location
+    barXpos = 50
+    barYpos = 230
+    barLength = 115
+
+    while True:
+        window.fill((0, 0, 0))
+        pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
+        startText = font.render('START', 1, (0, 255, 0))
+        window.blit(startText, (50, 200))
+        exitText = font.render('EXIT', 1, (0, 255, 0))
+        window.blit(exitText, (350, 200))
+        pygame.draw.rect(window, (0, 255, 0), (barXpos, barYpos, barLength, 5))
 
 
 def main_game():
