@@ -36,7 +36,7 @@ apple = dot(250, 250)
 score = 0
 speed = 1
 
-highscores = load_hs()
+
 
 def main_menu():
 
@@ -85,6 +85,8 @@ def game_over(score):
     run = True
     hs = {'PETE1': [60, '27.04.2020'], 'Marcy': [700, '20.04.2020']}
     show_text = True
+    highscores = load_hs()
+    highscores = {k: v for k, v in sorted(highscores.items(), key=lambda item: item[1], reverse=True)}
 
     while run:
         window.fill((0, 0, 0))
@@ -95,14 +97,15 @@ def game_over(score):
         hslvl = font.render('LVL', 1, (0, 255, 0))
         hsdate = font.render('DATE', 1, (0, 255, 0))
         window.blit(hsname, (25, 120))
-        window.blit(hsdate, (175, 120))
-        window.blit(hslvl, (300, 120))
+        window.blit(hsdate, (300, 120))
+        window.blit(hslvl, (175, 120))
         error_border = (255,0,0)
         norm_border = (0,255,0)
-        pygame.draw.rect(window, (255,0,0), (25, 475, 450, 50),5)
+
         events = pygame.event.get()
 
         if show_text:
+            pygame.draw.rect(window, (255, 0, 0), (25, 475, 450, 50), 5)
             # Feed it with events every frame
             textinput.update(events)
             # Blit its surface onto the screen
@@ -200,10 +203,10 @@ def main_game():
         if snakey.length[0][0] == 0 or snakey.length[0][0] == 500 or \
                 snakey.length[0][1] == 50 or snakey.length[0][1] == 550:
             #print('hit')
-            score = 0
             snakey.length = [[300, 410], []]
             # goto gameover menu
             game_over(score)
+            score = 0
             # return to main menu
             return False
 
@@ -223,6 +226,7 @@ def main_game():
             if snakey.length[0] in snakey.length[2:]:
                 # goto gameover menu
                 game_over(score)
+                score = 0
                 # return to main menu
                 return False
 

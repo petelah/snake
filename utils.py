@@ -13,7 +13,7 @@ def load_hs():
     # if not, create one and return it
     if not path.isfile(cwd):
         Path(cwd).touch()
-        return False
+        return {}
     # if there is, return it
     else:
         with open(cwd) as json_file:
