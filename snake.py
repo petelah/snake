@@ -86,7 +86,7 @@ def game_over(score):
     hs = {'PETE1': [60, '27.04.2020'], 'Marcy': [700, '20.04.2020']}
     show_text = True
     highscores = load_hs()
-    highscores = {k: v for k, v in sorted(highscores.items(), key=lambda item: item[1], reverse=True)}
+    #highscores = {k: v for k, v in sorted(highscores.items(), key=lambda item: item[1], reverse=True)}
 
     while run:
         window.fill((0, 0, 0))
@@ -112,7 +112,7 @@ def game_over(score):
             window.blit(textinput.get_surface(), (30, 480))
 
         i = 0
-        for k,v in highscores.items():
+        for k, v in sorted(highscores.items(), key=lambda item: item[1], reverse=True)[:10]:
             name = font.render(f'{k}', 1, (0, 255, 0))
             nscore = font.render(f'{v[0]}', 1, (0, 255, 0))
             date = font.render(f'{v[1]}', 1, (0, 255, 0))
