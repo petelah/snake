@@ -9,6 +9,10 @@ as possible while learning pygame.
 Control the snake using the arrow keys
 
 # Updates
+06.05.2020:
+
+Added highscore saving funtion that loads to and from json.
+
 27.04.2020:
 
 Fixed collisions with self so game now ends when you collide with yourself.
