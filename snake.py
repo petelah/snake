@@ -41,17 +41,28 @@ speed = 1
 def main_menu():
 
     # Menu bar location
-    barXpos = 50
-    barYpos = 230
+    barXpos = 200
+    barYpos = 130
     barLength = 115
+
+    # Dict of locations & current location
+    menuLocs = {
+        'START' : [200, 130, 115],
+        'HIGHSCORES' : [150, 230, 230],
+        'EXIT' : [220, 330, 80]
+    }
+    current_loc = 'START'
 
     while True:
         window.fill((0, 0, 0))
         pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
         startText = font.render('START', 1, (0, 255, 0))
-        window.blit(startText, (50, 200))
+        window.blit(startText, (200, 100))
         exitText = font.render('EXIT', 1, (0, 255, 0))
-        window.blit(exitText, (350, 200))
+        window.blit(exitText, (220, 300))
+        pygame.draw.rect(window, (0, 255, 0), (barXpos, barYpos, barLength, 5))
+        highscoreText = font.render('HIGHSCORES', 1, (0, 255, 0))
+        window.blit(highscoreText, (150, 200))
         pygame.draw.rect(window, (0, 255, 0), (barXpos, barYpos, barLength, 5))
 
         clock.tick(60)
@@ -61,32 +72,55 @@ def main_menu():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-        keys = pygame.key.get_pressed()
+            # Check for keyboard input when keydown
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    if current_loc == 'START':
+                        barXpos = menuLocs.get('HIGHSCORES')[0]
+                        barYpos = menuLocs.get('HIGHSCORES')[1]
+                        barLength = menuLocs.get('HIGHSCORES')[2]
+                        current_loc = 'HIGHSCORES'
+                    elif current_loc == 'HIGHSCORES':
+                        barXpos = menuLocs.get('EXIT')[0]
+                        barYpos = menuLocs.get('EXIT')[1]
+                        barLength = menuLocs.get('EXIT')[2]
+                        current_loc = 'EXIT'
+                    elif current_loc == 'EXIT':
+                        barXpos = menuLocs.get('EXIT')[0]
+                        barYpos = menuLocs.get('EXIT')[1]
+                        barLength = menuLocs.get('EXIT')[2]
+                        current_loc = 'EXIT'
+                elif event.key == pygame.K_UP:
+                    if current_loc == 'START':
+                        barXpos = menuLocs.get('START')[0]
+                        barYpos = menuLocs.get('START')[1]
+                        barLength = menuLocs.get('START')[2]
+                        current_loc = 'START'
+                    elif current_loc == 'HIGHSCORES':
+                        barXpos = menuLocs.get('START')[0]
+                        barYpos = menuLocs.get('START')[1]
+                        barLength = menuLocs.get('START')[2]
+                        current_loc = 'START'
+                    elif current_loc == 'EXIT':
+                        barXpos = menuLocs.get('HIGHSCORES')[0]
+                        barYpos = menuLocs.get('HIGHSCORES')[1]
+                        barLength = menuLocs.get('HIGHSCORES')[2]
+                        current_loc = 'HIGHSCORES'
+                elif event.key == pygame.K_RETURN:
+                    if current_loc == 'START':
+                        main_game()
+                    elif current_loc == 'HIGHSCORES':
+                        game_over(score, show_text=False)
+                    else:
+                        return False
+                elif event.key == pygame.K_ESCAPE:
+                    return False
 
-        if keys[pygame.K_RIGHT]:
-            barXpos = 350
-            barYpos = 230
-            barLength = 80
-        if keys[pygame.K_LEFT]:
-            barXpos = 50
-            barYpos = 230
-            barLength = 115
-        if keys[pygame.K_RETURN]:
-            if barXpos == 50:
-                main_game()
-            if barXpos == 350:
-                return False
 
-def game_over(score):
-    # Menu bar location
-    barXpos = 50
-    barYpos = 230
-    barLength = 115
+def game_over(score, show_text):
     run = True
-    hs = {'PETE1': [60, '27.04.2020'], 'Marcy': [700, '20.04.2020']}
-    show_text = True
+    show_text = show_text
     highscores = load_hs()
-    #highscores = {k: v for k, v in sorted(highscores.items(), key=lambda item: item[1], reverse=True)}
 
     while run:
         window.fill((0, 0, 0))
@@ -104,12 +138,18 @@ def game_over(score):
 
         events = pygame.event.get()
 
+        keys = pygame.key.get_pressed()
+
         if show_text:
             pygame.draw.rect(window, (255, 0, 0), (25, 475, 450, 50), 5)
             # Feed it with events every frame
             textinput.update(events)
             # Blit its surface onto the screen
             window.blit(textinput.get_surface(), (30, 480))
+            if keys[pygame.K_RETURN]:
+                highscores[textinput.get_text()] = [f"{score}", f"{datetime.now().strftime('%d.%m.%Y')}"]
+                save_hs(highscores)
+                show_text = False
 
         i = 0
         for k, v in sorted(highscores.items(), key=lambda item: item[1], reverse=True)[:10]:
@@ -129,13 +169,9 @@ def game_over(score):
         for event in events:
             if event.type == pygame.QUIT:
                 exit()
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            return False
-        if keys[pygame.K_RETURN]:
-            highscores[textinput.get_text()] = [f"{score}", f"{datetime.now().strftime('%d.%m.%Y')}"]
-            save_hs(highscores)
-            show_text = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False
 
 def main_game():
     run = True
@@ -154,7 +190,6 @@ def main_game():
         pygame.draw.rect(window, (0, 255, 0), (4, 55, 491, 490), 10)
         pygame.display.update()
         clock.tick(tickspeed)
-
 
         # Check score
         if score > 10:
@@ -205,7 +240,7 @@ def main_game():
             #print('hit')
             snakey.length = [[300, 410], []]
             # goto gameover menu
-            game_over(score)
+            game_over(score, show_text=True)
             score = 0
             # return to main menu
             return False
@@ -225,13 +260,10 @@ def main_game():
         if len(snakey.length) > 3:
             if snakey.length[0] in snakey.length[2:]:
                 # goto gameover menu
-                game_over(score)
+                game_over(score, show_text=True)
                 score = 0
                 # return to main menu
                 return False
-
-
-
 
 main_menu()
 
